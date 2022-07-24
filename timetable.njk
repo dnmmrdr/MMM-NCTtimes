@@ -1,0 +1,24 @@
+<style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{overflow:hidden;word-break:normal;}
+    .tg th{overflow:hidden;word-break:normal;}
+    .tg .tg-0lax{text-align:center;vertical-align:top}
+    </style>
+        <table class="tg">
+          <thead>
+            <tr>
+              <th class="tg-0lax">Bus Number  </th>
+              <th class="tg-0lax">Bus Dest. </th>
+              <th class="tg-0lax">Due Time </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in buses %}
+              <tr>
+                <td class="tg-0lax"> {{ a.Number }} </td>
+                <td class="tg-0lax"> {{ a.Name }} </td>
+                <td class="tg-0lax"> {{ a.Due }} </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
