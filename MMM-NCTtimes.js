@@ -5,7 +5,8 @@ Module.register("MMM-NCTtimes",{
 	defaults: {
 		stop: "3390A4",
 		amount: 5,
-		refresh: 60
+		refresh: 60,
+		header: "Angel Row"
 	},
 
 	start: function(){
@@ -20,21 +21,43 @@ Module.register("MMM-NCTtimes",{
 
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "bus-times") {
+			this.Notification = notification;
+			this.dataNotification = payload;
+			this.updateDom();
+		}
+		else if (notification === "error") {
+			this.Notification = notification;
 			this.dataNotification = payload;
 			this.updateDom();
 		}
 	},
-
+	
 	getTemplate: function () {
-			return "timetable.njk";
+			this.template = "timetable.njk";
+			return this.template;
 		},
 
 	getTemplateData: function () {
-		buses = this.dataNotification;
 		amount = this.config.amount;
+		header = this.config.header;
+		if (this.Notification === "bus-times") {
+		buses = this.dataNotification;
 		return {
 			buses: buses,
-			amount: amount
+			amount: amount,
+			header: header,
+			error: ""
 		};
+		}
+		else if (this.Notification === "error"){
+		error = this.dataNotification;
+		console.log(error);
+		return {
+			buses: "",
+			header: header,
+			error: error
+		}
+		}
+	
 	},
 });

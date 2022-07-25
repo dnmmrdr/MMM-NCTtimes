@@ -2,23 +2,38 @@
     .tg  {border-collapse:collapse;border-spacing:0;}
     .tg td{overflow:hidden;word-break:normal;}
     .tg th{overflow:hidden;word-break:normal;}
-    .tg .tg-0lax{text-align:center;vertical-align:top}
+    .tg .tg-0lax{text-align:left;vertical-align:top}
+    .tg .tg-1lax{text-align:center;vertical-align:top}
+    .tg .tg-2lax{text-align:right;vertical-align:top}
+    .head {text-align:right;vertical-align:top}
     </style>
+    <div>
+    {%if buses != ""%}
+    <header class="head">{{ header }}</header>
+    <div>
         <table class="tg">
           <thead>
             <tr>
-              <th class="tg-0lax">Bus Number  </th>
-              <th class="tg-0lax">Bus Dest. </th>
-              <th class="tg-0lax">Due Time </th>
+              <th class="tg-0lax">Bus Number</th>
+              <th class="tg-1lax">Bus Dest.</th>
+              <th class="tg-2lax">Due Time</th>
             </tr>
           </thead>
           <tbody>
             {% for a in buses %}
               <tr>
-                <td class="tg-0lax"> {{ a.Number }} </td>
-                <td class="tg-0lax"> {{ a.Name }} </td>
-                <td class="tg-0lax"> {{ a.Due }} </td>
+                <td class="tg-1lax"> {{ a.Number }} </td>
+                <td class="tg-1lax"> {{ a.Name }} </td>
+                <td class="tg-1lax"> {{ a.Due }} </td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
+        </div>
+      {% elif error != "" %}
+      <div>{{ error }}</div>
+      {% else %} 
+      <header class="head">{{ header }}</header>
+      <div>There are currently no buses due</div>
+      {% endif %} 
+      </div>

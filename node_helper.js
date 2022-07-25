@@ -32,7 +32,7 @@ socketNotificationReceived: async function scrapeData(notification, payload) {
     this.sendSocketNotification("bus-times", buses);
   }
   catch (error){
-    console.error(error)
+    this.sendSocketNotification("error", "There was an error scraping the data from NCT")
   }
 }
   }
