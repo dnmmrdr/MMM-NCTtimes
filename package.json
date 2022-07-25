@@ -1,0 +1,30 @@
+{
+  "name": "mmm-ncttimes",
+  "version": "1.0.0",
+  "description": "Magic Mirror Module to scrape NCT bus times",
+  "main": "MMM-NCTtimes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnmmrdr/MMM-NCTtimes.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "Magic",
+    "Mirror",
+    "NCT",
+    "buses"
+  ],
+  "author": "dnmmrdr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dnmmrdr/MMM-NCTtimes/issues"
+  },
+  "homepage": "https://github.com/dnmmrdr/MMM-NCTtimes#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
