@@ -51,7 +51,6 @@ Module.register("MMM-NCTtimes",{
 		}
 		else if (this.Notification === "error"){
 		error = this.dataNotification;
-		console.log(error);
 		return {
 			buses: "",
 			header: header,
