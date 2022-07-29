@@ -8,7 +8,8 @@
     .head {text-align:right;vertical-align:top}
     </style>
     <div>
-    {%if buses != ""%}
+    {%if buses%}
+    {% set buses = buses.slice(0, amount) %}
     <header class="head">{{ header }}</header>
     <div>
         <table class="tg">
@@ -30,7 +31,7 @@
           </tbody>
         </table>
         </div>
-      {% elif error != "" %}
+      {% elif error%}
       <div>{{ error }}</div>
       {% else %} 
       <header class="head">{{ header }}</header>

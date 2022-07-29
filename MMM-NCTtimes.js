@@ -3,7 +3,6 @@
 Module.register("MMM-NCTtimes",{
 	// Default module config.
 	defaults: {
-		stop: "3390A4",
 		amount: 5,
 		refresh: 60,
 		header: "Angel Row"
@@ -45,14 +44,12 @@ Module.register("MMM-NCTtimes",{
 		return {
 			buses: buses,
 			amount: amount,
-			header: header,
-			error: ""
+			header: header
 		};
 		}
 		else if (this.Notification === "error"){
 		error = this.dataNotification;
 		return {
-			buses: "",
 			header: header,
 			error: error
 		}
