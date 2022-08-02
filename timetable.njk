@@ -5,12 +5,11 @@
     .tg .tg-0lax{text-align:left;vertical-align:top}
     .tg .tg-1lax{text-align:center;vertical-align:top}
     .tg .tg-2lax{text-align:right;vertical-align:top}
-    .head {text-align:right;vertical-align:top}
     </style>
     <div>
-    {%if buses%}
+      {%if buses%}
+    {%if buses != ""%}
     {% set buses = buses.slice(0, amount) %}
-    <header class="head">{{ header }}</header>
     <div>
         <table class="tg">
           <thead>
@@ -34,7 +33,7 @@
       {% elif error%}
       <div>{{ error }}</div>
       {% else %} 
-      <header class="head">{{ header }}</header>
       <div>There are currently no buses due</div>
       {% endif %} 
+      {% endif %}
       </div>

@@ -3,21 +3,23 @@
 Module.register("MMM-NCTtimes",{
 	defaults: {
 		amount: 5,
-		refresh: 30
+		refresh: 60
 	},
 
 	start: function(){
+		var self = this;
 		config = this.config
-		this.sendSocketNotification("config", config.stop);
-
+		self.sendSocketNotification("GET_HEADER", config.stop);
+		self.sendSocketNotification("GET_TIMES", config.stop);
 		setInterval(function() {
-            this.sendSocketNotification("config", config.stop);
-        }, (+config.refresh) * 100); 
+            self.sendSocketNotification("GET_TIMES", config.stop);
+        }, (+config.refresh) * 1000); 
 	},
 
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === this.config.stop + "_HEADER"){
-			header = this.payload
+			this.busstopname = payload
+			this.updateDom();
 		}
 		if (notification === this.config.stop + "_BUSES") {
 			this.Notification = notification;
@@ -30,30 +32,38 @@ Module.register("MMM-NCTtimes",{
 			this.updateDom();
 		}
 	},
-	
+
+	getHeader: function () {
+		if (this.config.header){
+			return this.config.header;
+		}
+		else if (this.busstopname) {
+			return this.busstopname
+		}
+		else {
+			return "Error"
+		}
+	},
+
 	getTemplate: function () {
-			this.template = "timetable.njk";
-			return this.template;
+			template = "timetable.njk";
+			return template;
 		},
 
 	getTemplateData: function () {
 		amount = this.config.amount;
 		if (this.Notification === this.config.stop + "_BUSES") {
-			if (this.config.header) {
-				header = this.config.header;
-			}
 		buses = this.dataNotification;
 		return {
 			buses: buses,
 			amount: amount,
-			header: header
 		};
 		}
 		else if (this.Notification === this.config.stop + "_ERROR"){
 		this.error = this.dataNotification;
+		this.data.header = "Error";
 		return {
-			header: "Error",
-			error: error
+			error: this.error
 		}
 		}
 	
