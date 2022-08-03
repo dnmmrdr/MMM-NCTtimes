@@ -8,7 +8,7 @@ module.exports = NodeHelper.create({
 socketNotificationReceived: async function(notification, payload) {
   if (notification === "GET_TIMES") {
   try {
-    const url = "https://www.nctx.co.uk/stops/" + payload
+    const url = "https://www.nctx.co.uk/stops/" + payload.stop
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
     const listItems = $(".single-visit");
@@ -23,16 +23,18 @@ socketNotificationReceived: async function(notification, payload) {
       buses.push(Bus);
     }
     )
-    this.sendSocketNotification(payload + "_BUSES", buses);
+    this.sendSocketNotification("TIMES", {buses, id: payload.id});
+    console.log(payload.id)
+    console.log(buses);
   }
   catch (error){
-    this.sendSocketNotification(payload + "_ERROR", "There was an error scraping the data from NCT")
+    this.sendSocketNotification("ERROR", {error: "There was an error scraping the data from NCT", id: payload.id});
   }
   
 }
   else if (notification === "GET_HEADER"){
     try {
-      const url = "https://www.nctx.co.uk/stops/" + payload
+      const url = "https://www.nctx.co.uk/stops/" + payload.stop
       const { data } = await axios.get(url);
       const $ = cheerio.load(data);
       const header = $(".place-info-banner__name").text();
@@ -40,10 +42,10 @@ socketNotificationReceived: async function(notification, payload) {
       var slice = arr.slice(1);
       var slice2 = slice[0]
       var string = slice2.replace(/^ +/g, "");
-      this.sendSocketNotification(payload + "_HEADER", string);
+      this.sendSocketNotification("HEADER", {header: string, id: payload.id});
       }
     catch (error){
-      this.sendSocketNotification(payload + "_ERROR", "There was an error scraping the data from NCT")
+      this.sendSocketNotification("ERROR", {error: "There was an error scraping the data from NCT", id: payload.id});
     }
   }
   }

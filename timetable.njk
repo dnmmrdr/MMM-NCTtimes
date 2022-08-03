@@ -31,6 +31,7 @@
         </table>
         </div>
       {% elif error%}
+      {%elif error != ""%}
       <div>{{ error }}</div>
       {% else %} 
       <div>There are currently no buses due</div>

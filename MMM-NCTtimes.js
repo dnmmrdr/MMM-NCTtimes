@@ -3,32 +3,37 @@
 Module.register("MMM-NCTtimes",{
 	defaults: {
 		amount: 5,
-		refresh: 60
+		refresh: 30
 	},
 
 	start: function(){
 		var self = this;
 		config = this.config
-		self.sendSocketNotification("GET_HEADER", config.stop);
-		self.sendSocketNotification("GET_TIMES", config.stop);
+		identifier = this.identifier;
+		console.log("startfunction " + identifier)
+		self.sendSocketNotification("GET_HEADER", {id: identifier, stop: config.stop});
 		setInterval(function() {
-            self.sendSocketNotification("GET_TIMES", config.stop);
-        }, (+config.refresh) * 1000); 
+			console.log("repeatfunction " + identifier)
+            self.sendSocketNotification("GET_TIMES", {id: identifier, stop: config.stop});
+        }, (config.refresh) * 1000); 
 	},
 
 	socketNotificationReceived: function(notification, payload) {
-		if (notification === this.config.stop + "_HEADER"){
-			this.busstopname = payload
+		if (payload.id === this.identifier & notification === "HEADER"){
+			this.Notification = notification;
+			this.busstopname = payload.header
 			this.updateDom();
 		}
-		if (notification === this.config.stop + "_BUSES") {
+		else if (payload.id === this.identifier & notification === "TIMES") {
 			this.Notification = notification;
-			this.dataNotification = payload;
+			this.timedata = payload.buses;
+			this.response = notification;
+			this.id = payload.id;
 			this.updateDom();
 		}
-		else if (notification === this.config.stop + "_ERROR") {
+		else if (payload.id === this.identifier & notification === "ERROR") {
 			this.Notification = notification;
-			this.dataNotification = payload;
+			this.dataerror = payload.error;
 			this.updateDom();
 		}
 	},
@@ -46,21 +51,22 @@ Module.register("MMM-NCTtimes",{
 	},
 
 	getTemplate: function () {
-			template = "timetable.njk";
-			return template;
+			this.template = "timetable.njk";
+			return this.template;
 		},
 
 	getTemplateData: function () {
-		amount = this.config.amount;
-		if (this.Notification === this.config.stop + "_BUSES") {
-		buses = this.dataNotification;
+		this.amount = this.config.amount;
+		console.log("teample" + this.id)
+		if (this.id === this.identifier & this.Notification === "TIMES") {
+		this.buses = this.timedata;
 		return {
-			buses: buses,
-			amount: amount,
+			buses: this.buses,
+			amount: this.amount,
 		};
 		}
-		else if (this.Notification === this.config.stop + "_ERROR"){
-		this.error = this.dataNotification;
+		else if (this.id === this.identifier & this.Notification === "ERROR") {
+		this.error = this.dataerror;
 		this.data.header = "Error";
 		return {
 			error: this.error
