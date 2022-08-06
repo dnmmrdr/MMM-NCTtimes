@@ -10,12 +10,9 @@ Module.register("MMM-NCTtimes",{
 		var self = this;
 		config = this.config
 		identifier = this.identifier;
-		console.log("startfunction " + identifier)
-		self.sendSocketNotification("GET_HEADER", {id: identifier, stop: config.stop});
-		setInterval(function() {
-			console.log("repeatfunction " + identifier)
-            self.sendSocketNotification("GET_TIMES", {id: identifier, stop: config.stop});
-        }, (config.refresh) * 1000); 
+		Log.log("startfunction " + identifier)
+		self.sendSocketNotification("GET_HEADER", {id: identifier, stop: config.stop, refresh: config.refresh});
+		self.sendSocketNotification("GET_TIMES", {id: identifier, stop: config.stop, refresh: config.refresh});
 	},
 
 	socketNotificationReceived: function(notification, payload) {
@@ -39,14 +36,11 @@ Module.register("MMM-NCTtimes",{
 	},
 
 	getHeader: function () {
-		if (this.config.header){
-			return this.config.header;
+		if (this.data.header){
+			return this.data.header;
 		}
 		else if (this.busstopname) {
 			return this.busstopname
-		}
-		else {
-			return "Error"
 		}
 	},
 
@@ -57,7 +51,6 @@ Module.register("MMM-NCTtimes",{
 
 	getTemplateData: function () {
 		this.amount = this.config.amount;
-		console.log("teample" + this.id)
 		if (this.id === this.identifier & this.Notification === "TIMES") {
 		this.buses = this.timedata;
 		return {

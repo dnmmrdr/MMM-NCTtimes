@@ -2,11 +2,13 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const NodeHelper = require("node_helper");
-
+const Log = require("logger");
 
 module.exports = NodeHelper.create({
 socketNotificationReceived: async function(notification, payload) {
+  var test = this;
   if (notification === "GET_TIMES") {
+  	setInterval(async function() {
   try {
     const url = "https://www.nctx.co.uk/stops/" + payload.stop
     const { data } = await axios.get(url);
@@ -23,14 +25,14 @@ socketNotificationReceived: async function(notification, payload) {
       buses.push(Bus);
     }
     )
-    this.sendSocketNotification("TIMES", {buses, id: payload.id});
-    console.log(payload.id)
-    console.log(buses);
+    test.sendSocketNotification("TIMES", {buses, id: payload.id});
+    Log.log(payload.id)
+    Log.log(buses);
   }
   catch (error){
-    this.sendSocketNotification("ERROR", {error: "There was an error scraping the data from NCT", id: payload.id});
+    test.sendSocketNotification("ERROR", {error: "There was an error scraping the data from NCT", id: payload.id});
   }
-  
+}, (payload.refresh) * 1000); 
 }
   else if (notification === "GET_HEADER"){
     try {
@@ -42,10 +44,10 @@ socketNotificationReceived: async function(notification, payload) {
       var slice = arr.slice(1);
       var slice2 = slice[0]
       var string = slice2.replace(/^ +/g, "");
-      this.sendSocketNotification("HEADER", {header: string, id: payload.id});
+      test.sendSocketNotification("HEADER", {header: string, id: payload.id});
       }
     catch (error){
-      this.sendSocketNotification("ERROR", {error: "There was an error scraping the data from NCT", id: payload.id});
+      test.sendSocketNotification("ERROR", {error: "There was an error scraping the data from NCT", id: payload.id});
     }
   }
   }
