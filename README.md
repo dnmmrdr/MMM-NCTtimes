@@ -3,7 +3,7 @@ This is a Module for the [Magic Mirror Project](https://magicmirror.builders/) t
 
 ## Credits
 
-The main inspiration for this project comes from [https://github.com/jrmedd/nct-buses](https://github.com/jrmedd/nct-buses). This project has a different aim and is wrote in python, however the idea of scraping the NCT site came from this project, in the end I did not use any of the code within this module but without me finding that project (and jrmedd kindly open sourcing the project), this module wouldn't exist so a huge thanks to [jrmedd](https://github.com/jrmedd/)
+The main inspiration for this project comes from [jrmedd/nct-buses](https://github.com/jrmedd/nct-buses). Whilst this project does not borrow and code from there, without me finding that project (and jrmedd kindly open sourcing the project), this module wouldn't exist so a huge thanks to [jrmedd](https://github.com/jrmedd/)
 
 
 ## Installation
@@ -17,14 +17,14 @@ git clone https://github.com/dnmmrdr/MMM-NCTtimes.git
 3. Install npm packages:
 ```bash
 cd ./MMM-NCTtimes
-node install
+npm install
 ```
 
 ## Configuration
 
-You will need to [obtain a stop code from NCT](https://s3-eu-west-1.amazonaws.com/passenger-sources/nctx/txc/nctx_1654520711.zip). In the XML file all stops are listed with there 'stop code' this is needed so the module can find the appropriate stop to scrape.
+You will need to [obtain a stop code from NCT](https://s3-eu-west-1.amazonaws.com/passenger-sources/nctx/txc/nctx_1654520711.zip). In this XML file all stops are listed with there 'stop code' this is needed so the module can find the appropriate stop to scrape.
 
-The below is the bare minimum required to get the module working:
+The below is the bare minimum config required to get the module working:
 
 
     {
@@ -35,14 +35,13 @@ The below is the bare minimum required to get the module working:
     }
 
 
-Where stop is the stop code gotten from NCT.
+Where stop is the stop code obtained from NCT.
 
-### Additonal Config
+### Config
 
 
 Option|Value
 ------|-----------
-`stop`|Stop code (see above)
+`stop`|Stop code. (See above)<br>**Required**
 `amount`|This is an integer of how many buses you would like to see, for example if it were set to 6 it would show the next 6 buses.</br>**Default: 5**
-`refresh`| How often in seconds the module will refresh it's data, recommened to leave default. </br>**Default: 60**
-`header`|Header of the block, will default to the stop name however sometimes this isn't informative (for example: City, Angel Row A2), could be set to something more friendly like "work". </br>**Default: Stop name from site**
+`refresh`| How often in seconds the module will refresh it's data, recommened to leave default. Please be aware that if you set this too often the NCT site will automatically block your IP for a small period of time due to the high number of requests going to the site to often. </br>**Default: 30**
