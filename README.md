@@ -1,6 +1,10 @@
 # MMM-NCTtimes
 This is a Module for the [Magic Mirror Project](https://magicmirror.builders/) that displays bus times for bus stops that belong to [Nottingham City Transport](https://nctx.co.uk). The module gets the info by using the axios and cheerio nodejs libraries and scraping the NCT website, as they do not provide an API. This Module aims to look similar in format to the live displays used at the physical bus stops around Nottingham, whilst still remaining in style with the other default MagicMirror modules.
 
+Please note at the moment it will take approx 30 secs for the data to load when first launching MagicMirror, I do however plan to fix this in the future.
+
+<img src="assets/screenshot1.png" height="800" width="450" >
+
 ## Credits
 
 The main inspiration for this project comes from [jrmedd/nct-buses](https://github.com/jrmedd/nct-buses). Whilst this project does not borrow and code from there, without me finding that project (and jrmedd kindly open sourcing the project), this module wouldn't exist so a huge thanks to [jrmedd](https://github.com/jrmedd/)
